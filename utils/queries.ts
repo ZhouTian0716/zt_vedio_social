@@ -1,3 +1,7 @@
+// IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// LEARN THIS FROM SANITY DOC
+// sanity.io/docs/how-queries-work
+
 export const allPostsQuery = () => {
   const query = `*[_type == "post"] | order(_createdAt desc){
     _id,
