@@ -9,6 +9,10 @@ import { GoogleLogin, googleLogout } from "@react-oauth/google";
 
 import Logo from "../utils/tiktik-logo.png";
 
+// add new google user to sanity
+import { createOrGetUser } from '../utils';
+
+
 const Navbar = () => {
   const user = false;
   return (
@@ -29,7 +33,7 @@ const Navbar = () => {
           <div>Logged In</div>
         ) : (
           <GoogleLogin
-            onSuccess={(response) => console.log(response)}
+            onSuccess={(response) => createOrGetUser(response)}
             onError={() => console.log("Login Failed")}
           />
         )}
