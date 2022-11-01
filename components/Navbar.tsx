@@ -17,8 +17,11 @@ import { IUser } from "../types";
 const Navbar = () => {
   const [user, setUser] = useState<IUser | null>();
 
-  const { userProfile, addUser, removeUser } = useAuthStore();
+  // const { userProfile, addUser, removeUser } = useAuthStore();
+  const userProfile: any = useAuthStore((state) => state.userProfile);
+  const { addUser, removeUser } = useAuthStore();
 
+  
   useEffect(() => {
     setUser(userProfile);
   }, [userProfile]);
