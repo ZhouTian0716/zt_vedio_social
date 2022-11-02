@@ -59,6 +59,22 @@ const Detail = ({ postDetails }: IProps) => {
     }
   };
 
+  const addComment = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if (userProfile) {
+      if (comment) {
+        setIsPostingComment(true);
+        const res = await axios.put(`${BASE_URL}/api/post/${post._id}`, {
+          userId: userProfile._id,
+          comment,
+        });
+        setPost({ ...post, comments: res.data.comments });
+        setComment("");
+        setIsPostingComment(false);
+      }
+    }
+  };
+
   return (
     <div className="flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap">
       <div className="relative flex-2 w-[1000px] lg:w-9/12 flex justify-center items-center bg-blurred-img bg-no-repeat bg-cover bg-center">
@@ -141,7 +157,13 @@ const Detail = ({ postDetails }: IProps) => {
             )}
           </div>
 
-          <Comments />
+          <Comments
+            comment={comment}
+            setComment={setComment}
+            addComment={addComment}
+            comments={post.comments}
+            isPostingComment={isPostingComment}
+          />
         </div>
       </div>
     </div>
