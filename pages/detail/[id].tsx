@@ -47,6 +47,18 @@ const Detail = ({ postDetails }: IProps) => {
 
   if (!post) return null;
 
+  const handleLike = async (like: boolean) => {
+    if (userProfile) {
+      const res = await axios.put(`${BASE_URL}/api/like`, {
+        userId: userProfile._id,
+        postId: post._id,
+        like,
+      });
+      // This syntax is how to update an object
+      setPost({ ...post, likes: res.data.likes });
+    }
+  };
+
   return (
     <div className="flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap">
       <div className="relative flex-2 w-[1000px] lg:w-9/12 flex justify-center items-center bg-blurred-img bg-no-repeat bg-cover bg-center">
@@ -83,6 +95,53 @@ const Detail = ({ postDetails }: IProps) => {
               <HiVolumeUp className="text-white text-3xl lg:text-4xl" />
             </button>
           )}
+        </div>
+      </div>
+
+      <div className="relative w-[1000px] md:w-[900px] lg:w-[700px]">
+        <div className="lg:mt-20 mt-10">
+          <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded ">
+            <div className="md:w-20 md:h-20 w-10 h-10">
+              <Link href={`/`}>
+                <>
+                  <Image
+                    width={62}
+                    height={62}
+                    className=" rounded-full"
+                    src={post.postedBy.image}
+                    alt="user-profile"
+                    layout="responsive"
+                  />
+                </>
+              </Link>
+            </div>
+            <div>
+              <Link href={`/`}>
+                <div className="flex flex-col gap-2 mt-3">
+                  <p className="flex gap-2 items-center md:text-md font-bold text-primary">
+                    {post.postedBy.userName}
+                    <GoVerified className="text-blue-400 text-md" />
+                  </p>
+                  <p className="capitalize font-medium text-xs text-gray-500 hidden md:block">
+                    {post.postedBy.userName}
+                  </p>
+                </div>
+              </Link>
+            </div>
+          </div>
+          <p className="px-10 text-md text-gray-600">{post.caption}</p>
+          <div className="mt-10 px-10">
+            {userProfile && (
+              <LikeButton
+                likes={post.likes}
+                flex="flex"
+                handleLike={() => handleLike(true)}
+                handleDislike={() => handleLike(false)}
+              />
+            )}
+          </div>
+
+          <Comments />
         </div>
       </div>
     </div>
