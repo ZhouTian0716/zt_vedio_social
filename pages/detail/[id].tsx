@@ -170,6 +170,7 @@ const Detail = ({ postDetails }: IProps) => {
   );
 };
 
+// This is like a template, similar when there is an id detail page
 export const getServerSideProps = async ({
   params: { id },
 }: {
